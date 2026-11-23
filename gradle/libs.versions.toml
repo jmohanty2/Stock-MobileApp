@@ -15,6 +15,7 @@ retrofit = "3.0.0"
 roomRuntime = "2.8.5"
 swiperefreshlayout = "1.2.0"
 workRuntime = "2.12.0"
+annotation = "1.11.0"
 
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -36,6 +37,7 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRun
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
+annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
