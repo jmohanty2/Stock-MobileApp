@@ -12,6 +12,11 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME="stock_tracker.db";
     private static AppDatabase appDatabase;
 
+    public abstract StockDao stockDao();
+    public abstract AlertDao alertDao();
+    public abstract HoldingDao holdingDao();
+    public abstract PriceHistoryDao priceHistoryDao();
+
     public static AppDatabase getInstance(Context context) {
         if (appDatabase == null) {
             appDatabase = Room.databaseBuilder(context, AppDatabase.class,
