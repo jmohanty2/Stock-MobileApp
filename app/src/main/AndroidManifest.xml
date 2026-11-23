@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonalStockTracker">
         <activity
-            android:name=".WatchlistActivity"
+            android:name=".ui.watchlist.WatchlistActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -22,11 +22,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PortfolioActivity"
+            android:name=".ui.portfolio.PortfolioActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".StockDetailsActivity"
+            android:name=".ui.details.StockDetailsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
