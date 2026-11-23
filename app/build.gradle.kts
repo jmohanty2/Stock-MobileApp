@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.work.runtime)
     implementation(libs.mpandroidchart)
+    implementation(libs.mpchartcompose)
     annotationProcessor(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
