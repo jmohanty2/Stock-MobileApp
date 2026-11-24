@@ -11,8 +11,7 @@ public class StockEntity {
     public String ticker;
     public String companyName;
     public double currentPrice, change, changePercent, previousClose, open, dayHigh, dayLow;
-    @NonNull
-    public Boolean inWatchlist;
+    public boolean inWatchlist;
     public long lastUpdated;
     public long lastReminderAt;
     public String historyFetchedOn;

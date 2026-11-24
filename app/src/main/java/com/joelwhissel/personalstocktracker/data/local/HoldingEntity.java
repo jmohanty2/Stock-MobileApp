@@ -10,14 +10,13 @@ import androidx.room.PrimaryKey;
         foreignKeys = @ForeignKey(entity = StockEntity.class,
                 parentColumns = "ticker", childColumns = "ticker",
                 onDelete = ForeignKey.CASCADE),
-        indices = @Index("ticker"))
+        indices = @Index(value = "ticker", unique = true))
 public class HoldingEntity {
     @PrimaryKey(autoGenerate = true)
     public long id;
     @NonNull
     public String ticker;
-    @NonNull
-    public Double shares;
+    public double shares;
     public double avgBuyPrice;
     public long createdAt;
 }

@@ -3,7 +3,6 @@ package com.joelwhissel.personalstocktracker.data.local;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.PrimaryKey;
 
 @Entity(tableName = "price_history",
         foreignKeys = @ForeignKey(entity = StockEntity.class,
@@ -15,8 +14,7 @@ public class PriceHistoryEntity {
     public String ticker;
     @NonNull
     public String date;
-    @NonNull
-    public Double close;
+    public double close;
     public double high, low;
-    public int volume;
+    public long volume;
 }
