@@ -14,7 +14,7 @@ import com.joelwhissel.personalstocktracker.domain.AlertNotifier;
 
 /**
  * Hands out the app's single repository instances. ViewModels and workers get repositories
- * from here, never by constructing them, so fakes and real code switch with one flag.
+ * from here so fakes and real code switch with one flag.
  *
  * <pre>
  * StockRepository repo = ServiceLocator.stockRepository();

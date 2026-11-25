@@ -10,9 +10,6 @@ import com.joelwhissel.personalstocktracker.domain.enums.ErrorType;
 import java.util.List;
 
 /**
- * Single source of stock data for the ViewModels and workers. Hides whether data comes from
- * Room or the market-data APIs (design doc 6.1, 6.2, 9.1).
- *
  * <p>Threading: methods that take a {@link Callback} return at once and deliver the result on
  * the main thread. Methods ending in {@code Sync} block, so call them off the main thread
  * (workers, the repository's own executor). LiveData is safe to observe from any Activity.
@@ -25,33 +22,33 @@ public interface StockRepository {
     /** Most stocks that can be tracked across watchlist and portfolio combined. */
     int MAX_TRACKED = 50;
 
-    /** Foreground refresh period while a screen is visible (FR-W6). */
+    /** Foreground refresh period while a screen is visible. */
     long REFRESH_INTERVAL_MS = 60_000L;
 
-    /** Undo window after a watchlist remove (UC3). */
+    /** Undo window after a watchlist remove. */
     long UNDO_WINDOW_MS = 4_000L;
 
     // ---------------------------------------------------------------- observe
 
-    /** Stocks in the watchlist, ordered by ticker, with the last cached quote (FR-W4, FR-W5). */
+    /** Stocks in the watchlist, ordered by ticker, with the last cached quote. */
     LiveData<List<StockQuote>> observeWatchlist();
 
-    /** Holdings, ordered by ticker, each with its last cached quote (FR-P4, FR-P5). */
+    /** Holdings, ordered by ticker, each with its last cached quote. */
     LiveData<List<Holding>> observeHoldings();
 
-    /** Last cached quote for one tracked ticker; emits null if the stock is not tracked (FR-D1). */
+    /** Last cached quote for one tracked ticker; emits null if the stock is not tracked. */
     LiveData<StockQuote> observeQuote(String ticker);
 
     /**
      * Error from the most recent quote refresh (timer, pull-to-refresh, Retry or worker), or
-     * null after a successful one. Drives the "Network Error" banner (FR-W8, FR-P7).
+     * null after a successful one.
      */
     LiveData<ErrorType> observeRefreshError();
 
     // ---------------------------------------------------------------- watchlist
 
     /**
-     * Adds a ticker to the watchlist (FR-W2, UC2). A ticker that is already tracked (held, or
+     * Adds a ticker to the watchlist. A ticker that is already tracked (held, or
      * inside its Undo window) is added without API calls.
      *
      * <p>Result: success with the stock's quote, or {@link ErrorType#DUPLICATE},
@@ -81,7 +78,7 @@ public interface StockRepository {
     // ---------------------------------------------------------------- portfolio
 
     /**
-     * Adds a holding (FR-P1). Validate shares and price with InputValidator first. Creates the
+     * Adds a holding. Validate shares and price with InputValidator first. Creates the
      * stock row if needed, with API calls only for a new ticker.
      *
      * <p>Result: success with the holding, or {@link ErrorType#DUPLICATE} ("Already in
@@ -94,7 +91,7 @@ public interface StockRepository {
     void updateHolding(String ticker, double shares, double avgBuyPrice);
 
     /**
-     * Deletes a holding (FR-P2, after the user confirms). If the stock is not in the watchlist
+     * Deletes a holding. If the stock is not in the watchlist
      * its row, alerts and history are deleted too.
      */
     void removeHolding(String ticker);
@@ -102,7 +99,7 @@ public interface StockRepository {
     // ---------------------------------------------------------------- refresh
 
     /**
-     * A screen became visible (Activity.onStart). The repository counts visible screens and runs
+     * A screen became visible. The repository counts visible screens and runs
      * one shared timer that refreshes every tracked stock every {@link #REFRESH_INTERVAL_MS}.
      */
     void startAutoRefresh();
@@ -130,8 +127,7 @@ public interface StockRepository {
     /**
      * Daily history for a tracked ticker, oldest first, at most {@code days} trading days.
      * Served from the cache; fetched at most once per ticker per day within the daily call
-     * budget. Over budget, the cached (older) history is returned; the last element's date is
-     * the "History as of" date.
+     * budget. Over budget, the cached (older) history is returned;
      *
      * <p>Result: success, or {@link ErrorType#NETWORK_ERROR} when nothing is cached and the
      * fetch fails ("Indicators unavailable").

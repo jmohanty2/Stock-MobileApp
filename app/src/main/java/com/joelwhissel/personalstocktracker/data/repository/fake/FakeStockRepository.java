@@ -358,7 +358,7 @@ public class FakeStockRepository implements StockRepository {
     // ---------------------------------------------------------------- helpers
 
     /**
-     * The shared track() step (design doc 9.1). Call while holding the lock. A row that already
+     * The shared track() step. Call while holding the lock. A row that already
      * exists is reused without "API calls"; a new ticker checks the limit, then the error
      * switch, then the fake search.
      */

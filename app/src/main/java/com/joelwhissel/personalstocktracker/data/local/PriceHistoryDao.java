@@ -18,10 +18,7 @@ public interface PriceHistoryDao {
     @Query("SELECT * FROM price_history WHERE ticker = :ticker AND date >= :fromDate ORDER BY date ASC")
     List<PriceHistoryEntity> getHistoryForTicker(String ticker, String fromDate);
 
-    /**
-     * Most recent cached date (yyyy-MM-dd) for a ticker, or null if none is cached. Used to
-     * refresh history oldest-first and to show "History as of" on Stock Details.
-     */
+    /** Most recent cached date (yyyy-MM-dd) for a ticker, or null if none is cached. */
     @Nullable
     @Query("SELECT MAX(date) FROM price_history WHERE ticker = :ticker")
     String latestDate(String ticker);

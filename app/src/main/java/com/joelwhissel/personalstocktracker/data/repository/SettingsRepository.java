@@ -1,9 +1,5 @@
 package com.joelwhissel.personalstocktracker.data.repository;
 
-/**
- * User settings and API budgets kept in SharedPreferences (design doc 2.1, FR-A5). Reads are
- * cheap and safe on the main thread.
- */
 public interface SettingsRepository {
 
     /** Default slow-mover threshold: moved less than this % ... */

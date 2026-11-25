@@ -1,6 +1,6 @@
 package com.joelwhissel.personalstocktracker.domain;
 
-/** One trading day of price history (Alpha Vantage TIME_SERIES_DAILY, design doc 7.2). */
+/** One trading day of price history (Alpha Vantage TIME_SERIES_DAILY). */
 public class DailyPrice {
     private final String date;   // yyyy-MM-dd
     private final double close, high, low;

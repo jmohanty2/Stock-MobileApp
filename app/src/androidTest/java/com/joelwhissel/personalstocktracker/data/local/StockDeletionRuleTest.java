@@ -22,9 +22,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * The stock-row deletion rule (design doc 7, UC3): removing a stock from the watchlist only
- * hides it; the row, with its alerts and history, is deleted once it is in neither the
- * watchlist nor the portfolio.
+ * Removing a stock from the watchlist only hides it; the row, with its alerts and history,
+ * is deleted once it is in neither the watchlist nor the portfolio.
  */
 @RunWith(AndroidJUnit4.class)
 public class StockDeletionRuleTest {
