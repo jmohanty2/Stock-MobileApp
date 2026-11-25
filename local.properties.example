@@ -1,0 +1,7 @@
+# Copy this file to "local.properties" in the project root and fill in your own values.
+# local.properties is git-ignored: NEVER commit it.
+# Android Studio adds sdk.dir automatically; keep it.
+sdk.dir=/path/to/Android/sdk
+FINNHUB_API_KEY=your_finnhub_key
+ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key
+

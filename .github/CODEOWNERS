@@ -1,0 +1,21 @@
+# Replace each placeholder with the teammate's GitHub username (keep the @).
+# The last matching line wins.
+
+*                                                                    @ykuete
+
+/app/src/main/java/com/joelwhissel/personalstocktracker/data/        @jwhiss
+
+/app/src/main/java/com/joelwhissel/personalstocktracker/ui/watchlist/ @jmohanty2
+/app/src/main/java/com/joelwhissel/personalstocktracker/ui/portfolio/ @jmohanty2
+/app/src/main/res/                                                   @jmohanty2
+
+/app/src/main/java/com/joelwhissel/personalstocktracker/domain/      @ykuete
+
+/app/src/main/java/com/joelwhissel/personalstocktracker/ui/details/  @AngelL103 
+/app/src/main/java/com/joelwhissel/personalstocktracker/worker/      @AngelL103 
+/app/src/main/java/com/joelwhissel/personalstocktracker/util/        @AngelL103 
+
+/.github/                                                            @ykuete
+/gradle/                                                             @ykuete
+/app/build.gradle.kts                                                @ykuete
+/app/src/main/AndroidManifest.xml                                    @ykuete
