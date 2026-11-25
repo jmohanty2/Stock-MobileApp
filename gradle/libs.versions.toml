@@ -16,29 +16,50 @@ roomRuntime = "2.8.5"
 swiperefreshlayout = "1.2.0"
 workRuntime = "2.12.0"
 annotation = "1.11.0"
+coreTesting = "2.2.0"
+mockito = "5.14.2"
 
 [libraries]
-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+# AndroidX and UI
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "lifecycleViewmodel" }
-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewmodel" }
-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-mpandroidchart = { module = "com.github.PhilJay.MPAndroidChart:MPChartLib", version.ref = "mpandroidchart" }
-mpchartcompose = { module = "com.github.PhilJay.MPAndroidChart:MPChartCompose", version.ref = "mpandroidchart" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
-work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+
+# Lifecycle (ViewModel, LiveData, foreground refresh)
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewmodel" }
+lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "lifecycleViewmodel" }
+lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleViewmodel" }
+
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+
+# Networking
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+
+# Background work
+work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
+
+# Chart (Stock Details, FR-D4)
+mpandroidchart = { module = "com.github.PhilJay.MPAndroidChart:MPChartLib", version.ref = "mpandroidchart" }
+
+# Unit tests (src/test)
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "loggingInterceptor" }
+
+# Instrumented tests (src/androidTest)
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+room-testing = { module = "androidx.room:room-testing", version.ref = "roomRuntime" }
+work-testing = { module = "androidx.work:work-testing", version.ref = "workRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
