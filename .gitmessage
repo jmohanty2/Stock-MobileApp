@@ -1,0 +1,29 @@
+
+# <type>(<scope>): <summary — imperative, lower case, no period, max 72 chars>
+#
+# Why is this change needed? What does it do? Wrap lines at 72 chars.
+#
+# Refs: FR-W2, #12      (requirement IDs from the design doc, issue numbers)
+# Closes #12            (closes the issue when merged)
+#
+# ---------------------------------------------------------------------
+# type:  feat     new behaviour the user can see
+#        fix      bug fix
+#        test     adding or fixing tests only
+#        docs     documentation only
+#        style    formatting, layouts, colours (no logic change)
+#        refactor code change that neither fixes a bug nor adds a feature
+#        perf     performance
+#        build    Gradle, dependencies
+#        ci       GitHub Actions
+#        chore    housekeeping, releases, version bumps
+#
+# scope: core | data | domain | watchlist | portfolio | details | alerts
+#        worker | ui | demo | release
+#
+# Examples:
+#   feat(watchlist): add swipe/remove with 4-second undo and alert warning
+#   fix(alerts): open Stock Details from notification on Android 14
+#   chore(release): set version 1.0.0 (versionCode 1)
+# Lines starting with # are ignored.
+
