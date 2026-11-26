@@ -42,6 +42,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
+
         release {
             optimization {
                 enable = false   // keep off for v1.0.0 (Gson DTOs and Room would need keep rules)

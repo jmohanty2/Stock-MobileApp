@@ -36,8 +36,8 @@ jobs:
           echo "FINNHUB_API_KEY=${{ secrets.FINNHUB_API_KEY }}" >> local.properties
           echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> local.properties
 
-      - name: Lint, unit tests and debug build
-        run: ./gradlew lintDebug testDebugUnitTest assembleDebug --stacktrace
+      - name: Lint, unit tests, coverage and debug build
+        run: ./gradlew lintDebug testDebugUnitTest createDebugUnitTestCoverageReport assembleDebug --stacktrace
 
       - name: Upload lint and test reports
         if: always()
@@ -45,6 +45,13 @@ jobs:
         with:
           name: reports
           path: app/build/reports/
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: app/build/reports/coverage/test/debug/
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
