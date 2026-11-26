@@ -2,11 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Call the Finnhub and Alpha Vantage APIs -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Check for a connection before calling the APIs (Network Error banner) -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Show price alerts and reminders (Android 13+ asks the user at runtime) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -21,19 +18,35 @@
         android:usesCleartextTraffic="false">
 
         <activity
-            android:name=".ui.watchlist.WatchlistActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.watchlist.WatchlistActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.portfolio.PortfolioActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.details.StockDetailsActivity"
             android:exported="false"

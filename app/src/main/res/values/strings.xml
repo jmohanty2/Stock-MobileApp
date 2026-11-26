@@ -1,3 +1,54 @@
 <resources>
     <string name="app_name">Personal Stock Tracker</string>
+
+    <!-- Navigation and actions -->
+    <string name="nav_home">Home</string>
+    <string name="nav_watchlist">Home</string>
+    <string name="nav_portfolio">Portfolio</string>
+    <string name="nav_profile">Profile</string>
+    <string name="hint_ticker">Ticker symbol (e.g. AAPL)</string>
+    <string name="hint_shares">Number of shares</string>
+    <string name="hint_buy_price">Average buy price ($)</string>
+    <string name="action_add">Add</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_edit_shares">Edit shares</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="menu_reminder_settings">Reminder settings</string>
+
+    <!-- Errors (design doc 3.5) -->
+    <string name="error_stock_not_found">Stock Not Found</string>
+    <string name="error_network">Network Error</string>
+    <string name="error_invalid_value">Invalid Value</string>
+    <string name="error_already_in_watchlist">Already in watchlist</string>
+    <string name="error_already_in_portfolio">Already in portfolio</string>
+    <string name="error_limit_reached">Tracking limit reached (50)</string>
+
+    <!-- Watchlist -->
+    <string name="empty_watchlist">Search a ticker to start tracking</string>
+    <string name="last_updated">Last updated %1$s</string>
+    <string name="undo_removed">%1$s removed</string>
+    <string name="undo_alerts_deleted">%1$s removed. Its alerts will be deleted.</string>
+
+    <!-- Portfolio -->
+    <string name="total_value">Total value</string>
+    <string name="today_gain">Today</string>
+    <string name="total_gain">Total</string>
+    <string name="confirm_remove_holding">Remove %1$s from your portfolio?</string>
+    <string name="confirm_remove_holding_alerts">Remove %1$s? Its alerts and history will also be deleted.</string>
+
+    <!-- Stock Details (used by Member 4) -->
+    <string name="history_as_of">History as of %1$s</string>
+    <string name="indicators_unavailable">Indicators unavailable — try later</string>
+
+    <!-- Reminder settings -->
+    <string name="reminder_settings_title">Slow-mover reminders</string>
+    <string name="hint_reminder_percent">Moved less than (%)</string>
+    <string name="hint_reminder_days">Over trading days</string>
+
+    <!-- Notification channels (used by Member 4) -->
+    <string name="channel_price_alerts">Price alerts</string>
+    <string name="channel_reminders">Stock reminders</string>
 </resources>
