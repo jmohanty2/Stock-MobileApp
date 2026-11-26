@@ -1,5 +1,6 @@
 package com.joelwhissel.personalstocktracker.data.local;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -20,4 +21,12 @@ public interface HoldingDao {
     @Query("SELECT * FROM holdings WHERE ticker = :ticker")
     LiveData<List<HoldingEntity>> observeForTicker(String ticker);
 
+    /** Every holding, for the Portfolio screen. */
+    @Query("SELECT * FROM holdings ORDER BY ticker")
+    LiveData<List<HoldingEntity>> observeAll();
+
+    /** The holding for a ticker, or null if the ticker is not held (tickers are unique). */
+    @Nullable
+    @Query("SELECT * FROM holdings WHERE ticker = :ticker")
+    HoldingEntity get(String ticker);
 }
