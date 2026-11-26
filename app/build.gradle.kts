@@ -4,10 +4,15 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
-// Read API keys from local.properties (git-ignored, never committed).
-// CI writes this file from GitHub Secrets before building.
+// API keys from local.properties (git-ignored). CI writes this file from GitHub Secrets.
 val localProps = Properties().apply {
     val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+
+// Release signing key from keystore.properties (git-ignored). Only the release manager and CI have it.
+val keystoreProps = Properties().apply {
+    val f = rootProject.file("keystore.properties")
     if (f.exists()) f.inputStream().use { load(it) }
 }
 
@@ -26,7 +31,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Available in Java as BuildConfig.FINNHUB_API_KEY and BuildConfig.ALPHA_VANTAGE_API_KEY
         buildConfigField(
             "String", "FINNHUB_API_KEY",
             "\"${localProps.getProperty("FINNHUB_API_KEY", "")}\""
@@ -37,14 +41,32 @@ android {
         )
     }
 
+    signingConfigs {
+        create("release") {
+            if (!keystoreProps.isEmpty()) {
+                storeFile = rootProject.file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildFeatures {
-        buildConfig = true   // generates the BuildConfig class
+        buildConfig = true
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
         release {
             optimization {
                 enable = false   // keep off for v1.0.0 (Gson DTOs and Room would need keep rules)
+            }
+            // Teammates without keystore.properties still build; their release APK is just unsigned.
+            if (!keystoreProps.isEmpty()) {
+                signingConfig = signingConfigs.getByName("release")
             }
         }
     }
@@ -55,7 +77,7 @@ android {
     }
 
     testOptions {
-        unitTests.isReturnDefaultValues = true   // android.* calls return defaults in JVM unit tests
+        unitTests.isReturnDefaultValues = true
     }
 }
 
@@ -74,7 +96,7 @@ dependencies {
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.process)
 
-    // Room (Java: annotationProcessor, not kapt/ksp)
+    // Room
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
 
