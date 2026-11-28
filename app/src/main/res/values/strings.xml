@@ -41,7 +41,43 @@
 
     <!-- Stock Details (used by Member 4) -->
     <string name="history_as_of">History as of %1$s</string>
+    <string name="details_title">Stock Details</string>
+    <string name="details_quote">Quote Information</string>
+    <string name="details_open">Open</string>
+    <string name="details_day_high">Day High</string>
+    <string name="details_day_low">Day Low</string>
+    <string name="details_previous_close">Previous Close</string>
+
+    <!-- Stock Indicators -->
+    <string name="details_indicators">Stock Indicators</string>
     <string name="indicators_unavailable">Indicators unavailable — try later</string>
+    <string name="details_five_day">5-Day Change</string>
+    <string name="details_thirty_day">30-Day Change</string>
+    <string name="details_sma20">20-Day Average</string>
+    <string name="details_range">30-Day Range</string>
+    <string name="details_volatility">Volatility</string>
+    <string name="details_chart">30-Day Price History</string>
+
+    <!-- Indicator explanations -->
+    <string name="details_change_up">Up %1$.2f%% over %2$d trading days</string>
+    <string name="details_change_down">Down %1$.2f%% over %2$d trading days</string>
+    <string name="details_change_flat">Unchanged over %1$d trading days</string>
+
+    <string name="details_above_sma">Price is above its 20-day average</string>
+    <string name="details_not_above_sma">Price is at or below its 20-day average</string>
+
+    <string name="details_range_description">Closed between %1$s and %2$s</string>
+
+    <string name="volatility_low">Low</string>
+    <string name="volatility_medium">Medium</string>
+    <string name="volatility_high">High</string>
+
+    <string name="volatility_low_description">Daily return volatility below 1%</string>
+    <string name="volatility_medium_description">Daily return volatility between 1% and 2.5%</string>
+    <string name="volatility_high_description">Daily return volatility above 2.5%</string>
+
+    <!-- Alerts -->
+    <string name="details_your_alerts">Your Alerts</string>
 
     <!-- Reminder settings -->
     <string name="reminder_settings_title">Slow-mover reminders</string>
