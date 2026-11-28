@@ -4,7 +4,8 @@ import com.joelwhissel.personalstocktracker.domain.enums.AlertType;
 import com.joelwhissel.personalstocktracker.domain.enums.Direction;
 
 public class PriceAlert {
-    private final long id, triggeredAt;
+    private final long id;
+    private final Long triggeredAt;
     private final String ticker;
     private final AlertType type;
     private final Direction direction;
@@ -13,7 +14,7 @@ public class PriceAlert {
     private final double basePrice;
     private final boolean active;
 
-    public PriceAlert(long id, long triggeredAt, String ticker, AlertType type, Direction direction,
+    public PriceAlert(long id, Long triggeredAt, String ticker, AlertType type, Direction direction,
                       double targetValue, double basePrice, boolean active) {
         this.id = id;
         this.triggeredAt = triggeredAt;
@@ -39,7 +40,7 @@ public class PriceAlert {
         return id;
     }
 
-    public long getTriggeredAt() {
+    public Long getTriggeredAt() {
         return triggeredAt;
     }
 

@@ -74,7 +74,7 @@ public class FakeAlertRepository implements AlertRepository {
 
     /** Adds one sample alert so the Stock Details list is not empty. */
     public void seedSampleData() {
-        insertNow(new PriceAlert(0, 0, "AAPL", AlertType.PERCENT, Direction.UP,
+        insertNow(new PriceAlert(0, null, "AAPL", AlertType.PERCENT, Direction.UP,
                 5, 228.00, true));
     }
 
@@ -120,7 +120,7 @@ public class FakeAlertRepository implements AlertRepository {
 
     @Override
     public void rearm(PriceAlert alert, double basePrice) {
-        update(new PriceAlert(alert.getId(), 0, alert.getTicker(), alert.getType(),
+        update(new PriceAlert(alert.getId(), null, alert.getTicker(), alert.getType(),
                 alert.getDirection(), alert.getTargetValue(), basePrice, true));
     }
 
