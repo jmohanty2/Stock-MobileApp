@@ -23,7 +23,14 @@ public interface AlertDao {
     List<PriceAlertEntity> getActiveSync();   // used by AlertRepository.evaluateAndNotify()
     @Query("UPDATE price_alerts SET active = 0, triggeredAt = :now WHERE id = :id AND active = 1")
     int markTriggered(long id, long now);   // returns 1 only for the caller that fired the alert
-
+    @Query("UPDATE price_alerts SET active = :active " +
+            "WHERE id = :id AND " +
+            "(:active = 0 OR triggeredAt IS NULL)")
+    void updateAlertState(long id, boolean active);
+    @Query("UPDATE price_alerts SET active = 1, " +
+            "triggeredAt = NULL, basePrice = :basePrice " +
+            "WHERE id = :id")
+    void rearmAlert(long id, double basePrice);
 
 
 

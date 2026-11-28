@@ -1,7 +1,3 @@
-//Retrieves stock information through ServiceLocator, requests 40 trading days of history,
-// calculates the five indicators using existing IndicatorCalculator,
-// and shows results through LiveData
-
 package com.joelwhissel.personalstocktracker.ui.details;
 
 import android.app.Application;
@@ -18,6 +14,11 @@ import com.joelwhissel.personalstocktracker.domain.StockQuote;
 import com.joelwhissel.personalstocktracker.domain.DailyPrice;
 import com.joelwhissel.personalstocktracker.domain.IndicatorCalculator;
 import com.joelwhissel.personalstocktracker.domain.enums.Volatility;
+import com.joelwhissel.personalstocktracker.data.repository.AlertRepository;
+import com.joelwhissel.personalstocktracker.data.repository.Callback;
+import com.joelwhissel.personalstocktracker.domain.PriceAlert;
+import com.joelwhissel.personalstocktracker.domain.enums.AlertType;
+import com.joelwhissel.personalstocktracker.domain.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,8 @@ import java.util.List;
 public class StockDetailsViewModel extends AndroidViewModel{
 
     private final StockRepository repository;
-
+    private final AlertRepository alertRepository;
+    private LiveData<List<PriceAlert>> alerts;
     private LiveData<StockQuote> quote;
 
     private final MutableLiveData<List<DailyPrice>> history =
@@ -39,6 +41,8 @@ public class StockDetailsViewModel extends AndroidViewModel{
     public StockDetailsViewModel(@NonNull Application application) {
         super(application);
         repository = ServiceLocator.stockRepository();
+
+        alertRepository = ServiceLocator.alertRepository();
     }
 
     public void loadStock(String ticker) {
@@ -50,6 +54,7 @@ public class StockDetailsViewModel extends AndroidViewModel{
         this.ticker = ticker;
 
         quote = repository.observeQuote(ticker);
+        alerts = alertRepository.observe(ticker);
 
         repository.getHistory(ticker, 40, result -> {
 
@@ -126,6 +131,67 @@ public class StockDetailsViewModel extends AndroidViewModel{
         return indicators;
     }
 
+    public LiveData<List<PriceAlert>> getAlerts() {
+        return alerts;
+    }
+
+    public double getCurrentPrice() {
+
+        StockQuote currentQuote =
+                quote == null ? null : quote.getValue();
+
+        return currentQuote == null
+                ? 0.0
+                : currentQuote.getPrice();
+    }
+
+    public void saveAlert(AlertType type,
+                          Direction direction,
+                          double value,
+                          double currentPrice,
+                          Callback<PriceAlert> callback) {
+
+        double basePrice = type == AlertType.PERCENT
+                ? currentPrice
+                : 0.0;
+
+        PriceAlert alert = new PriceAlert(
+                0,
+                null,
+                ticker,
+                type,
+                direction,
+                value,
+                basePrice,
+                true
+        );
+
+        alertRepository.insert(alert, callback);
+    }
+
+    public void updateAlert(PriceAlert alert, boolean enabled) {
+
+        PriceAlert updatedAlert = new PriceAlert(
+                alert.getId(),
+                alert.getTriggeredAt(),
+                alert.getTicker(),
+                alert.getType(),
+                alert.getDirection(),
+                alert.getTargetValue(),
+                alert.getBasePrice(),
+                enabled
+        );
+
+        alertRepository.update(updatedAlert);
+    }
+
+    public void deleteAlert(PriceAlert alert) {
+        alertRepository.delete(alert);
+    }
+
+    public void rearmAlert(PriceAlert alert) {
+        alertRepository.rearm(alert, getCurrentPrice());
+    }
     public static class Indicators {
 
         public double fiveDayChange;

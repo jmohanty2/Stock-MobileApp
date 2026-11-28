@@ -51,6 +51,7 @@
         <activity
             android:name=".ui.details.StockDetailsActivity"
             android:exported="false"
+            android:parentActivityName=".ui.watchlist.WatchlistActivity"
             android:windowSoftInputMode="adjustResize" />
     </application>
 
