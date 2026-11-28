@@ -1,8 +1,6 @@
 # Replace each placeholder with the teammate's GitHub username (keep the @).
 # The last matching line wins.
 
-*                                                                    @ykuete
-
 /app/src/main/java/com/joelwhissel/personalstocktracker/data/        @jwhiss
 /app/src/test/java/com/joelwhissel/personalstocktracker/data/        @jwhiss
 
