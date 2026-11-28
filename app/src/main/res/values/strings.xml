@@ -39,7 +39,7 @@
     <string name="confirm_remove_holding">Remove %1$s from your portfolio?</string>
     <string name="confirm_remove_holding_alerts">Remove %1$s? Its alerts and history will also be deleted.</string>
 
-    <!-- Stock Details (used by Member 4) -->
+    <!-- Stock Details -->
     <string name="history_as_of">History as of %1$s</string>
     <string name="details_title">Stock Details</string>
     <string name="details_quote">Quote Information</string>
@@ -101,7 +101,7 @@
     <string name="hint_reminder_percent">Moved less than (%)</string>
     <string name="hint_reminder_days">Over trading days</string>
 
-    <!-- Notification channels (used by Member 4) -->
+    <!-- Notification channels -->
     <string name="channel_price_alerts">Price alerts</string>
     <string name="channel_reminders">Stock reminders</string>
 
