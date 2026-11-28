@@ -5,11 +5,17 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
+import android.os.Build;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -48,6 +54,20 @@ public class StockDetailsActivity extends AppCompatActivity {
     public static final String EXTRA_TICKER = "EXTRA_TICKER";
 
     private StockDetailsViewModel viewModel;
+    private static final String NOTIFICATION_PREFS =
+            "notification_preferences";
+
+    private static final String KEY_PERMISSION_REQUESTED =
+            "permission_requested";
+
+    private final ActivityResultLauncher<String>
+            notificationPermissionLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    granted -> {
+                        // Alert remains saved regardless of permission.
+                    }
+            );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -421,6 +441,8 @@ public class StockDetailsActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT
                             ).show();
 
+                            requestNotificationPermissionIfNeeded();
+
                         } else if (response.status == Resource.Status.ERROR) {
 
                             saveButton.setEnabled(true);
@@ -517,6 +539,46 @@ public class StockDetailsActivity extends AppCompatActivity {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+
+        if (Build.VERSION.SDK_INT
+                < Build.VERSION_CODES.TIRAMISU) {
+            return;
+        }
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        SharedPreferences preferences =
+                getSharedPreferences(
+                        NOTIFICATION_PREFS,
+                        MODE_PRIVATE
+                );
+
+        if (preferences.getBoolean(
+                KEY_PERMISSION_REQUESTED, false)) {
+            return;
+        }
+
+        preferences.edit()
+                .putBoolean(KEY_PERMISSION_REQUESTED, true)
+                .apply();
+
+        Toast.makeText(
+                this,
+                R.string.notification_permission_explanation,
+                Toast.LENGTH_LONG
+        ).show();
+
+        notificationPermissionLauncher.launch(
+                Manifest.permission.POST_NOTIFICATIONS
+        );
     }
 
 }

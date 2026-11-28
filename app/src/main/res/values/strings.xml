@@ -104,4 +104,16 @@
     <!-- Notification channels (used by Member 4) -->
     <string name="channel_price_alerts">Price alerts</string>
     <string name="channel_reminders">Stock reminders</string>
+
+    <!-- Notification messages -->
+    <string name="notification_alert_title">Price alert triggered</string>
+    <string name="notification_percent_up">%1$s rose %2$.1f%% to %3$s</string>
+    <string name="notification_percent_down">%1$s fell %2$.1f%% to %3$s</string>
+    <string name="notification_price_up">%1$s rose to %2$s</string>
+    <string name="notification_price_down">%1$s fell to %2$s</string>
+    <string name="notification_reminder_title">Slow-mover reminder</string>
+    <string name="notification_reminder_message">%1$s moved less than %2$.1f%% over %3$d trading days</string>
+
+    <!-- Notification permission -->
+    <string name="notification_permission_explanation">Enable notifications to receive stock price alerts.</string>
 </resources>
