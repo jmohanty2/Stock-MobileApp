@@ -78,6 +78,23 @@
 
     <!-- Alerts -->
     <string name="details_your_alerts">Your Alerts</string>
+    <string name="alert_type_percent">%</string>
+    <string name="alert_type_price">$</string>
+    <string name="alert_rises">Rises</string>
+    <string name="alert_falls">Falls</string>
+    <string name="alert_value">Target value</string>
+    <string name="alert_save">Save alert</string>
+    <string name="alert_saved">Alert saved</string>
+    <string name="alert_delete">Delete</string>
+    <string name="alert_enabled">Enabled</string>
+    <string name="alert_triggered">Triggered</string>
+    <string name="alert_empty">No price alerts</string>
+    <string name="alert_quote_required">Wait for the current stock price</string>
+
+    <string name="alert_rises_percent">Rises by %1$s%%</string>
+    <string name="alert_falls_percent">Falls by %1$s%%</string>
+    <string name="alert_rises_price">Rises to %1$s</string>
+    <string name="alert_falls_price">Falls to %1$s</string>
 
     <!-- Reminder settings -->
     <string name="reminder_settings_title">Slow-mover reminders</string>

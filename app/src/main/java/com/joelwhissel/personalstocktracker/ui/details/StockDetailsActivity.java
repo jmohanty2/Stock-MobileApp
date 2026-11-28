@@ -3,6 +3,11 @@ package com.joelwhissel.personalstocktracker.ui.details;
 import android.view.View;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +23,21 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textfield.TextInputEditText;
 
 import com.joelwhissel.personalstocktracker.R;
 import com.joelwhissel.personalstocktracker.domain.StockQuote;
 import com.joelwhissel.personalstocktracker.domain.DailyPrice;
+import com.joelwhissel.personalstocktracker.domain.PriceAlert;
+import com.joelwhissel.personalstocktracker.domain.InputValidator;
+import com.joelwhissel.personalstocktracker.domain.ValidationResult;
+import com.joelwhissel.personalstocktracker.domain.enums.AlertType;
+import com.joelwhissel.personalstocktracker.domain.enums.Direction;
+import com.joelwhissel.personalstocktracker.domain.enums.ErrorType;
+import com.joelwhissel.personalstocktracker.data.repository.Resource;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -94,6 +110,9 @@ public class StockDetailsActivity extends AppCompatActivity {
         // Observe price history.
         viewModel.getHistory().observe(this,
                 this::displayChart);
+
+        setupAlertForm();
+        setupAlertList();
     }
 
     private void displayQuote(StockQuote quote) {
@@ -293,7 +312,7 @@ public class StockDetailsActivity extends AppCompatActivity {
         dataSet.setColor(lineColor);
         dataSet.setLineWidth(2f);
         dataSet.setDrawCirclesEnabled(false);
-        dataSet.setDrawCirclesEnabled(false);
+        dataSet.setDrawValuesEnabled(false);
 
         chart.setData(new LineData(dataSet));
 
@@ -316,4 +335,188 @@ public class StockDetailsActivity extends AppCompatActivity {
         TextView textView = findViewById(id);
         textView.setText(value);
     }
+    private void setupAlertForm() {
+
+        MaterialButtonToggleGroup typeGroup =
+                findViewById(R.id.alert_type_group);
+
+        RadioGroup directionGroup =
+                findViewById(R.id.alert_direction_group);
+
+        TextInputLayout valueLayout =
+                findViewById(R.id.alert_value_layout);
+
+        TextInputEditText valueInput =
+                findViewById(R.id.alert_value_input);
+
+        MaterialButton saveButton =
+                findViewById(R.id.btn_save_alert);
+
+        saveButton.setOnClickListener(v -> {
+
+            AlertType type =
+                    typeGroup.getCheckedButtonId()
+                            == R.id.btn_alert_percent
+                            ? AlertType.PERCENT
+                            : AlertType.PRICE;
+
+            Direction direction =
+                    directionGroup.getCheckedRadioButtonId()
+                            == R.id.radio_alert_up
+                            ? Direction.UP
+                            : Direction.DOWN;
+
+            String input = valueInput.getText() == null
+                    ? ""
+                    : valueInput.getText().toString();
+
+            double currentPrice = viewModel.getCurrentPrice();
+
+            // Validate before saving.
+            ValidationResult result =
+                    InputValidator.validateAlert(
+                            type,
+                            direction,
+                            input,
+                            currentPrice
+                    );
+
+            if (!result.isValid()) {
+
+                valueLayout.setError(
+                        getString(R.string.error_invalid_value));
+
+                return;
+            }
+
+            // Percent alerts require a valid base price.
+            if (type == AlertType.PERCENT
+                    && currentPrice <= 0) {
+
+                valueLayout.setError(
+                        getString(R.string.alert_quote_required));
+
+                return;
+            }
+
+            valueLayout.setError(null);
+
+            saveButton.setEnabled(false);
+
+            viewModel.saveAlert(
+                    type,
+                    direction,
+                    result.getValue(),
+                    currentPrice,
+                    response -> {
+
+                        if (response.status == Resource.Status.SUCCESS) {
+
+                            saveButton.setEnabled(true);
+                            valueInput.setText("");
+
+                            Toast.makeText(
+                                    this,
+                                    R.string.alert_saved,
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                        } else if (response.status == Resource.Status.ERROR) {
+
+                            saveButton.setEnabled(true);
+
+                            int message = response.error
+                                    == ErrorType.STOCK_NOT_FOUND
+                                    ? R.string.error_stock_not_found
+                                    : R.string.error_network;
+
+                            Toast.makeText(
+                                    this,
+                                    message,
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+            );
+        });
+    }
+
+    private void setupAlertList() {
+
+        RecyclerView recyclerView =
+                findViewById(R.id.alerts_recycler_view);
+
+        TextView emptyView =
+                findViewById(R.id.tv_alert_empty);
+
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(this));
+
+        recyclerView.setNestedScrollingEnabled(false);
+
+        AlertAdapter adapter = new AlertAdapter(
+                new AlertAdapter.AlertListener() {
+
+                    @Override
+                    public void onEnabledChanged(
+                            PriceAlert alert, boolean enabled) {
+
+                        if (enabled
+                                && alert.getTriggeredAt() != null) {
+
+                            if (alert.getType() == AlertType.PERCENT
+                                    && viewModel.getCurrentPrice() <= 0) {
+
+                                Toast.makeText(
+                                        StockDetailsActivity.this,
+                                        R.string.alert_quote_required,
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                recyclerView.post(
+                                        () -> adapterRefresh(recyclerView));
+
+                                return;
+                            }
+
+                            viewModel.rearmAlert(alert);
+
+                        } else {
+                            viewModel.updateAlert(alert, enabled);
+                        }
+                    }
+
+                    @Override
+                    public void onDelete(PriceAlert alert) {
+                        viewModel.deleteAlert(alert);
+                    }
+                }
+        );
+
+        recyclerView.setAdapter(adapter);
+
+        viewModel.getAlerts().observe(this, alerts -> {
+
+            adapter.setAlerts(alerts);
+
+            boolean empty = alerts == null || alerts.isEmpty();
+
+            emptyView.setVisibility(
+                    empty ? View.VISIBLE : View.GONE);
+
+            recyclerView.setVisibility(
+                    empty ? View.GONE : View.VISIBLE);
+        });
+    }
+
+    private void adapterRefresh(RecyclerView recyclerView) {
+
+        RecyclerView.Adapter<?> adapter =
+                recyclerView.getAdapter();
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 }
