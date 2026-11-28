@@ -27,3 +27,5 @@
 /gradle/                                                             @ykuete
 /app/build.gradle.kts                                                @ykuete
 /app/src/main/AndroidManifest.xml                                    @ykuete
+
+/app/src/test/**                                                     @ykuete @jwhiss @jmohanty2 @AngelL103
